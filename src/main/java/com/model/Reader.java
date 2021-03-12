@@ -1,6 +1,6 @@
-package com.reader;
+package com.model;
 
-import com.book.Book;
+import com.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;

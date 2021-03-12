@@ -1,4 +1,4 @@
-package com.entities;
+package com.dbEntities;
 
 import lombok.Data;
 
@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "books")
 public class BookEntity {
+
     private static final long serialVersionUID = 7235443625362L;
 
     @Id

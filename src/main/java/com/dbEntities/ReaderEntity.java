@@ -1,4 +1,4 @@
-package com.entities;
+package com.dbEntities;
 
 import lombok.Data;
 
@@ -29,5 +29,4 @@ public class ReaderEntity implements Serializable {
                 joinColumns = @JoinColumn(name = "reader_id"),
                 inverseJoinColumns = @JoinColumn(name = "book_id"))
     private Set<BookEntity> books;
-
 }

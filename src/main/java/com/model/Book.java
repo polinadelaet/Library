@@ -1,14 +1,13 @@
-package com.book;
+package com.model;
 
 public class Book {
     private final String title;
     private final String author;
-    private int copies;
+    private String pressmark;
 
-    public Book(String title, String author, int copies) {
+    public Book(String title, String author) {
         this.title = title;
         this.author = author;
-        this.copies = copies;
     }
 
     public String getTitle() {
@@ -19,13 +18,11 @@ public class Book {
         return author;
     }
 
-
-
-    public int getCopies() {
-        return copies;
+    public String getPressmark() {
+        return pressmark;
     }
 
-    public void setCopies(int copies) {
-        this.copies = copies;
+    public void setPressmark(String pressmark) {
+        this.pressmark = pressmark;
     }
 }

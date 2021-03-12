@@ -1,17 +1,17 @@
 package com.library;
 
-import com.book.Book;
-import com.entities.BookEntity;
-import com.entities.ReaderEntity;
+import com.model.Book;
+import com.dbEntities.BookEntity;
+import com.dbEntities.ReaderEntity;
 import com.repository.BookRepository;
 import com.repository.ReaderRepository;
 import com.utils.PressmarkGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 
-@Component
+@Service("libraryService")
 public class LibraryService {
 
     @Autowired
@@ -20,12 +20,12 @@ public class LibraryService {
     @Autowired
     private ReaderRepository readerRepository;
 
-    public void addBook(Book book) {
+    public void addBook(Book book, int copies) {
         BookEntity bookEntity = new BookEntity();
         bookEntity.setTitle(book.getTitle());
         bookEntity.setAuthor(book.getAuthor());
         bookEntity.setPressmark(PressmarkGenerator.generatePressmark());
-        bookEntity.setCopies(book.getCopies());
+        bookEntity.setCopies(copies);
         bookEntity.setIssued(0);
         bookEntity.setReaders(new LinkedList<ReaderEntity>());
         bookRepository.save(bookEntity);
@@ -36,13 +36,15 @@ public class LibraryService {
         bookRepository.delete(targetBook);
     }
 
-   public BookEntity lendOutBook(String title, String author) {
+   public Book lendOutBook(String title, String author) {
        BookEntity targetBook = bookRepository.findByTitleAndAuthor(title, author);
        if (targetBook != null) {
            targetBook.setIssued(targetBook.getIssued() + 1);
            bookRepository.save(targetBook);
        }
-       return targetBook; //TODO: сделать у вызывающего метода проверку на null
+       Book book = new Book(targetBook.getTitle(), targetBook.getAuthor());
+       book.setPressmark(targetBook.getPressmark());
+       return book;//TODO: сделать у вызывающего метода проверку на null
    }
 
     public void acceptBookFromReader(Book book) {
@@ -62,5 +64,9 @@ public class LibraryService {
         return true; //TODO: сделать у вызывающего метода проверку на true/false
     }
 
-
+    public void changePressMark(String title, String author) {
+        BookEntity targetBook = bookRepository.findByTitleAndAuthor(title, author);
+        targetBook.setPressmark(PressmarkGenerator.generatePressmark());
+        bookRepository.save(targetBook);
+    }
 }
